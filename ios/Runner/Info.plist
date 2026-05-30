@@ -66,5 +66,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>GuardianGo uses the camera to scan your documents so it can explain them. Photos are processed on your device and never uploaded.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>GuardianGo needs access to your photos so you can choose a document image to explain. Images are processed on your device and never uploaded.</string>
 </dict>
 </plist>

@@ -58,6 +58,7 @@ dependencies:
 
   # Utils
   archive: ^3.6.1       # gzip for P2P backup
+  image_picker: ^1.2.2
 
 dev_dependencies:
   flutter_test:
