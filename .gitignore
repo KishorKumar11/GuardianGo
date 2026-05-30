@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Isar native binary downloaded for host tests
+libisar.dylib
+libisar.so
+libisar*.dll
