@@ -1,0 +1,17 @@
+{
+  "@@locale": "zh",
+  "appName": "GuardianGo",
+  "documentsMode": "文件",
+  "salaryMode": "工资",
+  "evidenceMode": "证据",
+  "rightsMode": "权利",
+  "backupMode": "备份",
+  "scanDocument": "扫描文件",
+  "scanRetry": "无法清晰读取 — 请在更好的光线下重试",
+  "offlineMessage": "此步骤需要网络。扫描已保存待处理。",
+  "momHotline": "不确定？请拨打MOM: 6438 5122",
+  "sensitiveWarning": "您的文件文字将发送到安全的AI服务进行解释。您的照片永远不会发送。",
+  "biometricPrompt": "解锁证据保险箱",
+  "exportQr": "导出为QR码",
+  "importQr": "从QR码导入"
+}

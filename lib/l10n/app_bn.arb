@@ -1,0 +1,17 @@
+{
+  "@@locale": "bn",
+  "appName": "GuardianGo",
+  "documentsMode": "নথি",
+  "salaryMode": "বেতন",
+  "evidenceMode": "প্রমাণ",
+  "rightsMode": "অধিকার",
+  "backupMode": "ব্যাকআপ",
+  "scanDocument": "নথি স্ক্যান করুন",
+  "scanRetry": "স্পষ্টভাবে পড়া যাচ্ছে না — ভালো আলোতে আবার চেষ্টা করুন",
+  "offlineMessage": "এই পদক্ষেপের জন্য ইন্টারনেট প্রয়োজন। স্ক্যান সংরক্ষিত হয়েছে।",
+  "momHotline": "নিশ্চিত না? MOM কে কল করুন: 6438 5122",
+  "sensitiveWarning": "আপনার নথির টেক্সট একটি নিরাপদ AI সেবায় পাঠানো হয়। আপনার ছবি কখনো পাঠানো হয় না।",
+  "biometricPrompt": "প্রমাণ লকার খুলুন",
+  "exportQr": "QR কোড হিসেবে রপ্তানি করুন",
+  "importQr": "QR কোড থেকে আমদানি করুন"
+}

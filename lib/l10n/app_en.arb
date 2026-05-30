@@ -1,0 +1,17 @@
+{
+  "@@locale": "en",
+  "appName": "GuardianGo",
+  "documentsMode": "Documents",
+  "salaryMode": "Salary",
+  "evidenceMode": "Evidence",
+  "rightsMode": "Rights",
+  "backupMode": "Backup",
+  "scanDocument": "Scan Document",
+  "scanRetry": "Couldn't read clearly — try better lighting",
+  "offlineMessage": "This step needs internet. Scan saved for later.",
+  "momHotline": "Not sure? Call MOM: 6438 5122",
+  "sensitiveWarning": "The text of your document is sent to a secure AI service to be explained. Your photo is never sent.",
+  "biometricPrompt": "Unlock Evidence Locker",
+  "exportQr": "Export as QR codes",
+  "importQr": "Import from QR codes"
+}
