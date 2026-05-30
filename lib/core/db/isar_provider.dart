@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:guardiago/features/salary/domain/shift_log.dart';
+import 'package:guardiago/features/evidence/domain/incident_log.dart';
 
 // Overridden in main.dart once Isar is opened.
 final isarProvider = Provider<Isar>((ref) {
@@ -13,8 +14,8 @@ Future<Isar> openIsar() async {
   return Isar.open(
     [
       ShiftLogSchema,
+      IncidentLogSchema,
       // TODO: register remaining schemas as their tasks land:
-      //   IncidentLogSchema   (Task 2.1)
       //   CorpusChunkSchema   (rights module)
       //   DocumentResultSchema(documents module)
     ],
