@@ -17,10 +17,11 @@ class ShiftRepository {
   Future<List<ShiftLog>> getShiftsForMonth(int year, int month) async {
     final start = DateTime(year, month, 1);
     final end = DateTime(year, month + 1, 1);
+    // Inclusive lower bound so a shift clocked in exactly at 00:00 on the 1st
+    // is included; exclusive upper bound so the next month is excluded.
     return _isar.shiftLogs
         .filter()
-        .clockInGreaterThan(start)
-        .clockInLessThan(end)
+        .clockInBetween(start, end, includeLower: true, includeUpper: false)
         .findAll();
   }
 

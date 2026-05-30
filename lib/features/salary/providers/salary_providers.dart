@@ -22,6 +22,18 @@ final monthlyOtSummaryProvider =
   (ref, args) async {
     final repo = ref.watch(shiftRepositoryProvider);
     final shifts = await repo.getShiftsForMonth(args.year, args.month);
-    return OtCalculator.calculateWeekly(shifts);
+
+    // The 44h cap is statutory PER WEEK, so group the month's shifts by their
+    // ISO week before applying calculateWeekly to each week independently.
+    final byWeek = <String, List<ShiftLog>>{};
+    for (final shift in shifts) {
+      final key = '${shift.clockIn.year}-W${shift.isoWeek}';
+      byWeek.putIfAbsent(key, () => <ShiftLog>[]).add(shift);
+    }
+
+    return [
+      for (final weekShifts in byWeek.values)
+        ...OtCalculator.calculateWeekly(weekShifts),
+    ];
   },
 );

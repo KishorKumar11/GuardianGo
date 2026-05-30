@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:encrypt/encrypt.dart';
 
-/// AES-256 (CBC) encryption with a random IV per message.
+/// AES-256 (GCM) authenticated encryption with a random nonce per message.
 ///
-/// Ciphertext is serialised as `base64(iv):base64(ciphertext)` so the IV
-/// travels with the payload and never has to be stored separately.
+/// GCM provides confidentiality AND integrity: tampered ciphertext or a wrong
+/// key fail authentication and throw on decrypt, which matters for an evidence
+/// locker. Ciphertext is serialised as `base64(iv):base64(ciphertext+tag)` so
+/// the nonce travels with the payload and never has to be stored separately.
 class CryptoService {
   final Key _key;
 
@@ -28,8 +30,9 @@ class CryptoService {
   }
 
   String encryptString(String plaintext) {
-    final iv = IV.fromSecureRandom(16);
-    final encrypter = Encrypter(AES(_key, mode: AESMode.cbc));
+    // 96-bit nonce is the standard size for AES-GCM.
+    final iv = IV.fromSecureRandom(12);
+    final encrypter = Encrypter(AES(_key, mode: AESMode.gcm));
     final encrypted = encrypter.encrypt(plaintext, iv: iv);
     return '${iv.base64}:${encrypted.base64}';
   }
@@ -38,7 +41,7 @@ class CryptoService {
     final parts = ciphertext.split(':');
     if (parts.length != 2) throw Exception('Invalid ciphertext format');
     final iv = IV.fromBase64(parts[0]);
-    final encrypter = Encrypter(AES(_key, mode: AESMode.cbc));
+    final encrypter = Encrypter(AES(_key, mode: AESMode.gcm));
     try {
       return encrypter.decrypt64(parts[1], iv: iv);
     } catch (e) {

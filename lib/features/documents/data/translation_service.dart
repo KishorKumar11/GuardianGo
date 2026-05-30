@@ -1,6 +1,5 @@
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:guardiago/core/constants/app_constants.dart';
-import 'package:guardiago/core/errors/app_error.dart';
 
 /// On-device translation via ML Kit. Translates English explanations into the
 /// worker's language, downloading the language model on first use. Languages
@@ -33,7 +32,8 @@ class TranslationService {
   }
 
   /// Translates [text] from [sourceLanguageCode] to [targetLanguageCode].
-  /// Throws [TranslationFailure] for languages without an on-device model.
+  /// Throws an [Exception] for languages without an on-device model so the
+  /// caller can fall back to the cloud translate step.
   Future<String> translate(
     String text, {
     required String targetLanguageCode,
@@ -45,8 +45,8 @@ class TranslationService {
     if (source == null ||
         target == null ||
         AppConstants.cloudOnlyLanguages.contains(targetLanguageCode)) {
-      throw const AppError.translationFailure(
-        'No on-device model for the requested language',
+      throw Exception(
+        'No on-device translation model for "$targetLanguageCode"',
       );
     }
 

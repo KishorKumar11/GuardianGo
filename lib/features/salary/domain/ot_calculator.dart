@@ -35,9 +35,18 @@ class OtCalculator {
 
     switch (shift.shiftType) {
       case ShiftType.restDay:
-      case ShiftType.publicHoliday:
-        // Entire shift at 2.0×
+        // Entire shift at the rest-day multiplier.
         final pay = workedHours * rate * AppConstants.restDayMultiplier;
+        return OtResult(
+          regularPay: pay,
+          otPay: 0.0,
+          workedHours: workedHours,
+          otHours: 0.0,
+        );
+
+      case ShiftType.publicHoliday:
+        // Entire shift at the public-holiday multiplier.
+        final pay = workedHours * rate * AppConstants.publicHolidayMultiplier;
         return OtResult(
           regularPay: pay,
           otPay: 0.0,
@@ -66,8 +75,14 @@ class OtCalculator {
   static List<OtResult> calculateWeekly(List<ShiftLog> shifts) {
     final results = shifts.map(calculate).toList();
 
-    final totalRegularHours =
-        results.fold(0.0, (sum, r) => sum + r.workedHours);
+    // Only NORMAL working hours count toward the 44h weekly cap. Rest-day and
+    // public-holiday hours are separately compensated and must not inflate it.
+    var totalRegularHours = 0.0;
+    for (var i = 0; i < shifts.length; i++) {
+      if (shifts[i].shiftType == ShiftType.normal) {
+        totalRegularHours += results[i].workedHours;
+      }
+    }
 
     if (totalRegularHours <= AppConstants.normalWeeklyHoursCap) {
       return results;

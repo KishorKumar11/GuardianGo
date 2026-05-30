@@ -95,6 +95,40 @@ void main() {
       expect(totalPay, closeTo(500.0, 0.01));
     });
 
+    test('rest-day hours do not count toward the 44h weekly cap', () {
+      // 5 normal 8h shifts = 40h (under cap) + one 8h rest day shift.
+      // Rest-day hours must NOT push normal hours over 44h.
+      final shifts = [
+        for (var i = 0; i < 5; i++)
+          makeShift(
+            clockIn: DateTime(2024, 1, 15 + i, 9, 0),
+            clockOut: DateTime(2024, 1, 15 + i, 17, 0),
+          ),
+        makeShift(
+          clockIn: DateTime(2024, 1, 20, 9, 0),
+          clockOut: DateTime(2024, 1, 20, 17, 0),
+          type: ShiftType.restDay,
+        ),
+      ];
+      final results = OtCalculator.calculateWeekly(shifts);
+      final totalPay = results.fold(0.0, (s, r) => s + r.totalPay);
+      final totalOt = results.fold(0.0, (s, r) => s + r.otPay);
+      // 40h normal × $10 = $400; rest day 8h × $10 × 2.0 = $160 → $560.
+      // No weekly OT because normal hours (40) are under 44.
+      expect(totalOt, closeTo(0.0, 0.01));
+      expect(totalPay, closeTo(560.0, 0.01));
+    });
+
+    test('public holiday uses the public-holiday multiplier', () {
+      final shift = makeShift(
+        clockIn: day,
+        clockOut: day.add(const Duration(hours: 8)),
+        type: ShiftType.publicHoliday,
+      );
+      final result = OtCalculator.calculate(shift);
+      expect(result.totalPay, closeTo(160.0, 0.01)); // 8h × $10 × 2.0
+    });
+
     test('clock-out before clock-in throws ArgumentError', () {
       final shift = makeShift(
         clockIn: day.add(const Duration(hours: 8)),
